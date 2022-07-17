@@ -68,7 +68,7 @@ Sau khoảng thời gian, những thay đổi này được ghi vào hệ thốn
 
 ## 1.5 **Một số lệnh kiểm tra File system type trên hệ thống**
 
-- **df**
+> df -ahT
 
 Lệnh df báo cáo việc sử dụng không gian đĩa của hệ thống ;
 
@@ -78,31 +78,28 @@ Hiển thị size lũy thừa 1024 : **-h**
 
 Loại file system : **-T**
 
-![](RackMultipart20220717-1-s1ordv_html_aa4be8bbea516cf5.png)
 
-- **fsck**
+> fsck -N
 
 Lệnh fsck kiểm tra hệ thống tệp Linux và cố gắng sửa chữa trong trường hợp có sự cố
 
 -N không thực thi kiểm tra và sửa chữa , chỉ hiển thị những gì sẽ được thực hiện
 
-![](RackMultipart20220717-1-s1ordv_html_d239ac01927d7d7e.png)
 
-- **lsblk**
+> lsblk -f
 
 Liệt kê tên thiết bị, hard disk và Partition
 
 -f hiển thị loại file system
 
-![](RackMultipart20220717-1-s1ordv_html_48dd16bdd3946bb5.png)
 
 - /etc/fstab là file cấu hình mount file system , loại file system, và các tùy chọn khác.
 
-![](RackMultipart20220717-1-s1ordv_html_5dc861269880d5df.png)
+> cat /etc/fstab
 
-1. **Partitioning a disk**
+# 2. **Partitioning a disk**
 
-1. **Giới thiệu về Partition**
+## 2.1 **Giới thiệu về Partition**
 
 Partition là những phân vùng nhỏ được chia ra từ 1 Physical disk . Một hard disk có thể có 1 hoặc nhiều partition. Partition là cách phân chia và quản lý một hard disk đơn giản và hiệu quả (VD 1 partition quan trọng để chứa dữ liệu của OS và 1 partition để chứa dữ liệu người dùng
 
@@ -116,21 +113,22 @@ Hiện có 3 loại partition chính là: primary, extended và logical :
 
 **Logical partition** : các Partition nhỏ nằm trong extended partition, thường dùng để chứa dữ liệu.
 
-1. **MBR và GPT**
+## 2.2 **MBR và GPT**
 
 Thông tin về các partition của ổ cứng sẽ được lưu trữ trên MBR (Master Boot Record) hoặc GPT (GUID Partition Table) tùy loại ổ cứng hỗ trợ. Đây là 2 chuẩn cấu hình và quản lý các partition trên ổ cứng. Thông tin được lưu trữ trên đây gồm vị trí và dung lượng của các partition.
 
 - **MBR** là chuẩn phân chia ổ đĩa truyền thống, một ổ đĩa sẽ được chia thành các vùng nhỏ (sector) với dung lượng bằng nhau là 512 bytes. Trên Linux, một ổ đĩa cứng được chia thành nhiều partition với số hiệu như sau: /dev/hda1, /dev/hda2, /dev/sda1, /dev/sda2, /dev/sdb1,… Ta có thể dùng lệnh fdisk hoặc parted để hiển thị thông tin về ổ đĩa dùng MBR trên Linux.
 
-![](RackMultipart20220717-1-s1ordv_html_bf61320780541544.png)
+> fdisk -l /dev/sda
 
+<img src=https://s1.gifyu.com/images/image15303b97b712799b.png>
 Đối với các ổ cứng kiểu cũ chỉ hỗ trợ MBR thì ta chỉ được phép có tối đa 4 primary partition trên 1 ổ cứng, extended partion cũng được coi là 1 primary partition. MBR sử dụng 32 bit để lưu trữ địa chỉ khối và đối với các đĩa cứng có các sectors 512 byte, MBR xử lý tối đa 2TB (2^32 × 512 byte).
 
 **Boot Record.**
 
 - **GPT** là chuẩn mới hơn, hỗ trợ đến 128 Partition trên 1 ổ đĩa vật lý. Thông tin về các partition sẽ được ghi thành nhiều bản rải rác khắp ổ vật lý. GPT hỗ trợ cơ chế kiểm tra và chỉnh sửa dữ liệu dựa trên CRC (cyclic redundancy check). Nhờ 2 cơ chế này, chuẩn GPT làm giảm tỷ lệ mất mát dữ liệu. GPT sử dụng 64 bit cho địa chỉ khối và cho các đĩa cứng có các sectors 512 byte, kích thước tối đa là 9,4 ZB.
 
-![](RackMultipart20220717-1-s1ordv_html_bf3b308b6412c.png)
+<img src=https://s1.gifyu.com/images/imagef9de4cf53ba435a9.png>
 
 1. **Một số công cụ để Partition ổ đĩa**
 
@@ -146,77 +144,65 @@ Thông tin về các partition của ổ cứng sẽ được lưu trữ trên M
 
 Lệnh liệt kê danh sách Partition trên hệ thống đĩa của bạn và các Partition được sắp xếp theo tên /dev của thiết bị như /dev/sda, /dev/sdb, ... Sử dụng lệnh sau để xem tất cả các Partition hiện có trong hệ thống.
 
-![](RackMultipart20220717-1-s1ordv_html_e2e7e1e49f95f62a.png)
+> fdisk -l
 
 - **Xem một Partition trên một ổ đĩa cụ thể**
 
 Xem tất cả các Partition trên một đĩa cụ thể, sử dụng lệnh sau để xem tất cả các Partition đĩa trên /dev/sda.
 
-![](RackMultipart20220717-1-s1ordv_html_2869de6491cc98ee.png)
+> fdisk -l /dev/sda
 
 - **Xem tất cả các lệnh**  **f**** disk**
 
 Sử dụng lệnh sau để xem tất cả các lệnh fdisk có sẵn
 
-![](RackMultipart20220717-1-s1ordv_html_a706c5821de5bbbe.png)
+> fdisk /dev/sdb
 
 Nhập m để xem danh sách tất cả các lệnh có sẵn của fdisk có thể sử dụng trên /dev/sdb :
 
-![](RackMultipart20220717-1-s1ordv_html_cf39e9dc02c1aaa6.png)
+<img src=https://s1.gifyu.com/images/image1c862d6acebf2f7e.png>
 
 - **Tạo Partition mới**
 
 Để tạo Partition mới thực hiện các bước sau :
 
-**B1:** Nhập lệnh sau để bắt đầu tạo Partition trên /dev/sdb
+-- **B1:** Nhập lệnh sau để bắt đầu tạo Partition trên /dev/sdb
 
-![](RackMultipart20220717-1-s1ordv_html_f98d8e39a3d817d5.png)
+> fdisk /dev/sdb
 
-1.
-2.
-3.
-  1.
-    1.
 
-**B2** : Nhập **n** để tạo Partition mới sẽ nhắc chỉ định cho một Partition chính hoặc Partition mở rộng. Nhập **p** cho Partition chính hoặc **e** cho Partition mở rộng.
+-- **B2** : Nhập **n** để tạo Partition mới sẽ nhắc chỉ định cho một Partition chính hoặc Partition mở rộng. Nhập **p** cho Partition chính hoặc **e** cho Partition mở rộng.
 
-![](RackMultipart20220717-1-s1ordv_html_f001b420005c0bd.png)
 
 **B3** :Sau đó, bạn sẽ được nhắc nhập số của Partition sẽ được tạo. Bạn có thể nhấn Enter để chấp nhận mặc định.
 
-![](RackMultipart20220717-1-s1ordv_html_f43fae0b30a2fa83.png)
 
 **B4** :Sau đó, bạn sẽ được nhắc nhập kích thước của Partition sẽ được tạo ví dụ tạo đĩa với size 10 GB. Có thể nhấn Enter để sử dụng tất cả không gian có sẵn.
 
-![](RackMultipart20220717-1-s1ordv_html_dc24ba0ba57d11d1.png)
 
 **B5** : Chạy lệnh  **w**  để lưu các thay đổi
 
-![](RackMultipart20220717-1-s1ordv_html_724792673a7bc57d.png)
 
-B6: Kiểm tra Partition mới đã được tạo chưa
+**B6**: Kiểm tra Partition mới đã được tạo chưa
 
-![](RackMultipart20220717-1-s1ordv_html_774d0c61c1f44694.png)
 
 **B7** : Có hai Partition mới được tạo. Sau khi tạo Partition phải thông báo cho OS để cập nhật bảng Partition. Thực hiện lệnh sau đây:
 
-![](RackMultipart20220717-1-s1ordv_html_a6f595e4038709b7.png)
+> partprobe /dev/sdb
 
 B8:Định dạng Partition của để sử dụng. Lệnh sau để định dạng Partition sdb1 với **xfs**.
 
-![](RackMultipart20220717-1-s1ordv_html_9836b95443039d79.png)
+> mkfs.xfs /dev/sdb1
 
-**B9** :Sau khi định dạng thành công Partition mới các Partition đã có thể lưu trữ dữ liệu. Chúng ta phải gắn Partition vào thư mục. Tạo các thư mục này bằng lệnh sau:
-
-![](RackMultipart20220717-1-s1ordv_html_35c333b661f6da70.png)
+**B9** :Sau khi định dạng thành công Partition mới các Partition đã có thể lưu trữ dữ liệu. Chúng ta phải gắn Partition vào thư mục. 
 
 **B10** : mount /dev/sdb1 vào /data/ bằng lệnh sau :
 
-![](RackMultipart20220717-1-s1ordv_html_d6f6f6f7fb423c98.png)
+> mount /dev/sdb1 /data
 
 Kiểm tra sử dụng partition với lệnh sau :
 
-![](RackMultipart20220717-1-s1ordv_html_c8d7ca7ab04d8097.png)
+> df -ahT
 
 - **Xóa một Partition**
 
@@ -224,17 +210,14 @@ Kiểm tra sử dụng partition với lệnh sau :
 
 **B2:** Ngắt kết nối thư mục /data bằng lệnh
 
-![](RackMultipart20220717-1-s1ordv_html_ebf64db723f98813.png)
+> ummout /data
 
 B3: Xem các Partition hiện có và chạy lệnh sau :
 
-![](RackMultipart20220717-1-s1ordv_html_4b99f98f4cb02abb.png)
 
 B4 :Nhập d để xóa một Partition. Nhập số của Partition, trường hợp này có 1 Partition /dev/sdb1 nên sẽ mặc định xóa Partition 1 . Lưu các thay đổi bằng cách nhập w.
 
-![](RackMultipart20220717-1-s1ordv_html_eaa729dc78bf70ca.png)
 
-![](RackMultipart20220717-1-s1ordv_html_e47cbc7c5a7c0027.png)
 
 - **Parted**
 
