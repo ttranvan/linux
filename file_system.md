@@ -5,7 +5,7 @@ Một File system  là thiết bị mà nó đã được định dạng để l
 Hệ thống file Linux bao gồm:  CD-ROM, partition của hard disk ...
 File system thường được tạo trong quá trình cài đặt hệ điều hành. Nhưng  cũng có thể thay đổi cấu trúc file system  khi thêm thiết bị hay chỉnh sửa những partition đã tồn tại. 
  
-
+<img src=https://github.com/ttranvan/linux/blob/162b9577d69a8d2dc86ddee3778f8e0e82976237/images/hieunv.png>
 
 
 Các thành phần của File system:
