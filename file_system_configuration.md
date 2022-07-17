@@ -1,6 +1,6 @@
-1. **File system types**
+# 1. **File system types**
 
-1. **File System là gì**
+## 1.1 **File System là gì**
 
 Mỗi hệ thống sử dụng cấu trúc riêng, có thể dùng phân cấp để có thể xác định được dữ liệu. Cách lưu trữ và tổ chức như vậy gọi là File system
 
@@ -10,9 +10,8 @@ Hệ thống file Linux bao gồm: CD-ROM, partition của hard disk ...
 
 File system thường được tạo trong quá trình cài đặt hệ điều hành. Nhưng cũng có thể thay đổi cấu trúc file system khi thêm thiết bị hay chỉnh sửa những partition đã tồn tại.
 
-![](RackMultipart20220717-1-s1ordv_html_6d52cb79de798062.png)
-
-**Các thành phần của**  **File system**** :**
+<img src=https://s1.gifyu.com/images/image4e5a1ed81600b10a.png>
+## 1.2 *Các thành phần của**  **File system**** :**
 
 - Superblock
 - Inode
@@ -29,7 +28,7 @@ File system thường được tạo trong quá trình cài đặt hệ điều 
 
 - Storageblock: Là vùng lưu dữ liệu thực sự của file và thư mục. Nó chia thành những Data Block. Dữ liệu lưu trữ vào đĩa trong các data block. Mỗi block thường chứa 1024 byte. Ngay khi file chỉ có 1 ký tự thì cũng phải cấp phát 1 block để lưu nó. Không có ký tự kết thúc file.
 
-1. **File system**  **type**
+## 1.3 **File system**  **type**
 
 - **Ext – Extended file system** : Phiên bản đầu tiên của Ext
 - **Ext2** : Không hỗ trợ journal , performance tăng lên
@@ -54,9 +53,9 @@ Tuy nhiên, nhiều phiên bản distributor yêu cầu Partition /boot riêng b
 
 - **Swap** Không phải file system,được sử dụng dưới 1 dạng bộ nhớ ảo và không có cấu trúc file system cụ thể. Không thể kết hợp và đọc dữ liệu được, nhưng lại chỉ có thể được dùng bởi kernel để ghi thay đổi vào ổ đĩa. Thông thường, nó chỉ được sử dụng khi hệ thống thiếu hụt bộ nhớ RAM hoặc chuyển trạng thái của máy tính về chế độ Hibernate.
 
-1. **Journaling**
+## 1.4 **Journaling**
 
-![](RackMultipart20220717-1-s1ordv_html_cf56b6e5bf7ff7ae.png)
+<img src=https://s1.gifyu.com/images/image6277553cda1b5cec.png>
 
 Journaling giúp tránh hỏng hệ thống file bằng cách ghi metadata bao gồm các thay đổi của hệ thống file vào journal
 
@@ -67,7 +66,7 @@ Sau khoảng thời gian, những thay đổi này được ghi vào hệ thốn
 - Journal : toàn bộ dữ liệu và metadata thay đổi sẽ được ghi vào journal trước khi được commit vào file system , làm cho peformance giảm xuống do phải đọc và ghi đến 2 lần
 - Ordered : Chỉ ghi các metadata vào journal , dữ liệu sẽ được ghi trực tiếp vào file system. Sau khi ghi dữ liệu xong thì phần metadata tương ứng mới dc ghi vào file system
 
-1. **Một số lệnh kiểm tra File system type trên hệ thống**
+## 1.5 **Một số lệnh kiểm tra File system type trên hệ thống**
 
 - **df**
 
